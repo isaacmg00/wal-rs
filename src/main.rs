@@ -1,18 +1,23 @@
-use serde_json::json;
+use serde_json;
+use std::fs;
+use std::env;
 
 fn main() {
-    // The type of `john` is `serde_json::Value`
-    let john = json!({
-        "name": "John Doe",
-        "age": 43,
-        "phones": [
-            "+44 1234567",
-            "+44 2345678"
-        ]
-    });
+    let path_buf = home::home_dir().unwrap();
+    let path = path_buf.into_os_string().into_string().unwrap();
+    //println!("{}", path);
 
-    println!("first phone number: {}", john["phones"][0]);
+    let mut home_path: String = path.to_owned();
+    let wal_json: &str = "/.cache/wal/colors.json";
+    home_path.push_str(wal_json);
+    //println!("{}", home_path);
 
-    // Convert to a string of JSON and print it out
-    println!("{}", john.to_string());
+    let json_path = home_path;
+    let data = fs::read_to_string(json_path).expect("Unable to read file");
+    println!("{}", data);
+    
+
+
+
+
 }
