@@ -54,17 +54,10 @@ fn print_colors(v:&Value, len: usize) -> Vec<String> {
     println!("{}", vec[0]);
 
     for i in 0..len {
-        let no_quotes = vec[i];
-        vec[i] = rem_first_and_last(vec[i]);
-        println!(i);
+        //let no_quotes = vec[i];
+        //vec[i] = rem_first_and_last(vec[i]);
+        //println!(i);
     }
-
-    let no_quotes = &vec[1];
-    let no_quotes1 = rem_first_and_last(no_quotes);
-
-    println!("{}", no_quotes1);
-
-
     return vec;
 
 }
