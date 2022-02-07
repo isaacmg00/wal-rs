@@ -51,13 +51,13 @@ fn print_colors(v:&Value, len: usize) -> Vec<String> {
     vec.push(v["colors"]["color14"].to_string());
     vec.push(v["colors"]["color15"].to_string());
 
-    println!("{}", vec[0]);
+    //vec[1] = "hr;;p".to_string();
 
     for i in 0..len {
-        //let no_quotes = vec[i];
-        //vec[i] = rem_first_and_last(vec[i]);
-        //println!(i);
+        vec[i] = rem_first_and_last(&vec[i]).to_string();
+        println!("{}", vec[i]);
     }
+
     return vec;
 
 }
