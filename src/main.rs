@@ -5,27 +5,7 @@ use css_color_parser::Color as CssColor;
 use dialoguer::{theme::ColorfulTheme, Select};
 
 fn main() {
-    untyped_example();
-
-    let selections = &[
-        "Ice Cream",
-        "Vanilla Cupcake",
-        "Chocolate Muffin",
-        "A Pile of sweet, sweet mustard",
-    ];
-
-    let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("Pick your flavor")
-        .default(1)
-        .items(&selections[..])
-        .interact()
-        .unwrap();
-
-    println!("Enjoy your {}!", selections[selection]);
-}
-
-fn print_type_of<T>(_: &T) {
-    println!("{}", std::any::type_name::<T>());
+    wal_rs().ok();
 }
 
 fn rem_first_and_last(value: &str) -> &str {
@@ -38,18 +18,15 @@ fn rem_first_and_last(value: &str) -> &str {
 fn print_colors(v:&Value, len: usize) -> Vec<String> {
     let path_buf = home::home_dir().unwrap();
     let path = path_buf.into_os_string().into_string().unwrap();
-
     let mut home_path: String = path.to_owned();
     let wal_json: &str = "/.cache/wal/colors.json";
-    home_path.push_str(wal_json);
-
-    let json_path = home_path;
-    let data = fs::read_to_string(json_path).expect("Unable to read file");
-
-    const EMPTY_STRING: String = String::new();
-    let mut wal_colors: [String; 16] = [EMPTY_STRING; 16];
 
     let mut vec = Vec::with_capacity(len);
+    let mut r = Vec::with_capacity(len);
+    let mut g = Vec::with_capacity(len);
+    let mut b = Vec::with_capacity(len);
+
+    home_path.push_str(wal_json);
 
     vec.push(v["colors"]["color0"].to_string());
     vec.push(v["colors"]["color1"].to_string());
@@ -68,74 +45,66 @@ fn print_colors(v:&Value, len: usize) -> Vec<String> {
     vec.push(v["colors"]["color14"].to_string());
     vec.push(v["colors"]["color15"].to_string());
 
-
     for i in 0..len {
         let transparent_black = CssColor { r: 0, g: 0, b: 0, a: 1.0 };
-
         vec[i] = rem_first_and_last(&vec[i]).to_string();
         let rgb_color = vec[i].parse::<CssColor>().unwrap_or(transparent_black);
-        let mut red = rgb_color.r;
-        let mut green = rgb_color.g;
-        let mut blue = rgb_color.b;
-
-        println!("{}", vec[i].on_truecolor(red, green, blue));
+        let red = rgb_color.r;
+        let green = rgb_color.g;
+        let blue = rgb_color.b;
+        r.push(red);
+        g.push(green);
+        b.push(blue);
     }
 
     let selections = &[
-        "Ice Cream".on_truecolor(255,255,255),
-        "Vanilla Cupcake".on_truecolor(255,255,255),
-        "Chocolate Muffin".on_truecolor(255,255,255),
-        "A Pile of sweet, sweet mustard".on_truecolor(255,255,255),
+        vec[0].bold().on_truecolor(r[0],g[0],b[0]),
+        vec[1].bold().on_truecolor(r[1],g[1],b[1]),
+        vec[2].bold().on_truecolor(r[2],g[2],b[2]),
+        vec[3].bold().on_truecolor(r[3],g[3],b[3]),
+        vec[4].bold().on_truecolor(r[4],g[4],b[4]),
+        vec[5].bold().on_truecolor(r[5],g[5],b[5]),
+        vec[6].bold().on_truecolor(r[6],g[6],b[6]),
+        vec[7].bold().on_truecolor(r[7],g[7],b[7]),
+        vec[8].bold().on_truecolor(r[8],g[8],b[8]),
+        vec[9].bold().on_truecolor(r[9],g[9],b[9]),
+        vec[10].bold().on_truecolor(r[10],g[10],b[10]),
+        vec[11].bold().on_truecolor(r[11],g[11],b[11]),
+        vec[12].bold().on_truecolor(r[12],g[12],b[12]),
+        vec[13].bold().on_truecolor(r[13],g[13],b[13]),
+        vec[14].bold().on_truecolor(r[14],g[14],b[14]),
+        vec[15].bold().on_truecolor(r[15],g[15],b[15]),
     ];
 
-    let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("Pick your flavor")
-        .default(1)
-        .items(&selections[..])
-        .interact()
-        .unwrap();
+    let mut selection_index = 0;
+    println!("{}", "Pywal Theme Colors");
 
-    println!("Enjoy your {}!", selections[selection]);
+    loop {
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("colors:")
+            .default(selection_index)
+            .items(&selections[..])
+            .interact()
+            .unwrap();
 
+        selection_index = selection;
+
+        println!("{}", "Setting Peripheral RGB Color...");
+    }
     return vec;
 
 }
-fn untyped_example() -> Result<()> {
+
+fn wal_rs() -> Result<()> {    
     let path_buf = home::home_dir().unwrap();
     let path = path_buf.into_os_string().into_string().unwrap();
-
     let mut home_path: String = path.to_owned();
     let wal_json: &str = "/.cache/wal/colors.json";
     home_path.push_str(wal_json);
-
     let json_path = home_path;
     let data = fs::read_to_string(json_path).expect("Unable to read file");
-
     let v: Value = serde_json::from_str(&data)?;
-    
-    let generated_vec = print_colors(&v, 16);
-    //println!("{:?}", generated_vec);
-
-
-    const EMPTY_STRING: String = String::new();
-    let mut wal_colors: [String; 16] = [EMPTY_STRING; 16];
-
-    wal_colors[0]=v["colors"]["color0"].to_string();
-    wal_colors[1]=v["colors"]["color1"].to_string();
-    wal_colors[2]=v["colors"]["color2"].to_string();
-    wal_colors[3]=v["colors"]["color3"].to_string();
-    wal_colors[4]=v["colors"]["color4"].to_string();
-    wal_colors[5]=v["colors"]["color5"].to_string();
-    wal_colors[6]=v["colors"]["color6"].to_string();
-    wal_colors[7]=v["colors"]["color7"].to_string();
-    wal_colors[8]=v["colors"]["color8"].to_string();
-    wal_colors[9]=v["colors"]["color9"].to_string();
-    wal_colors[10]=v["colors"]["color10"].to_string();
-    wal_colors[11]=v["colors"]["color11"].to_string();
-    wal_colors[12]=v["colors"]["color12"].to_string();
-    wal_colors[13]=v["colors"]["color13"].to_string();
-    wal_colors[14]=v["colors"]["color14"].to_string();
-    wal_colors[15]=v["colors"]["color15"].to_string();
+    print_colors(&v, 16);
     Ok(())
 }
 
