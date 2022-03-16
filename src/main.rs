@@ -1,8 +1,10 @@
 use serde_json::{Value, Result};
 use std::fs;
 use colored::*;
+use css_color_parser::Color as CssColor;
 //use std::env;
 //use serde::{Deserialize, Serialize};
+
 
 fn main() {
     untyped_example();
@@ -51,18 +53,25 @@ fn print_colors(v:&Value, len: usize) -> Vec<String> {
     vec.push(v["colors"]["color13"].to_string());
     vec.push(v["colors"]["color14"].to_string());
     vec.push(v["colors"]["color15"].to_string());
-
-    //vec[1] = "hr;;p".to_string();
+    
+    //let transparent_black = CssColor { r: 0, g: 0, b: 0, a: 1.0 };
+    //sprintln!("{:?}", "#08121B".parse::<CssColor>().unwrap_or(transparent_black).r);
 
     for i in 0..len {
+        let transparent_black = CssColor { r: 0, g: 0, b: 0, a: 1.0 };
+
         vec[i] = rem_first_and_last(&vec[i]).to_string();
-        println!("{}", vec[i]);
+        let rgb_color = vec[i].parse::<CssColor>().unwrap_or(transparent_black);
+        let mut red = rgb_color.r;
+        let mut green = rgb_color.b;
+        let mut blue = rgb_color.b;
+
+        println!("{}", vec[i].on_truecolor(red, green, blue));
     }
 
     return vec;
 
 }
- 
 fn untyped_example() -> Result<()> {
     let path_buf = home::home_dir().unwrap();
     let path = path_buf.into_os_string().into_string().unwrap();
@@ -77,7 +86,7 @@ fn untyped_example() -> Result<()> {
     let v: Value = serde_json::from_str(&data)?;
     
     let generated_vec = print_colors(&v, 16);
-    println!("{:?}", generated_vec);
+    //println!("{:?}", generated_vec);
 
 
     const EMPTY_STRING: String = String::new();
@@ -100,8 +109,8 @@ fn untyped_example() -> Result<()> {
     wal_colors[14]=v["colors"]["color14"].to_string();
     wal_colors[15]=v["colors"]["color15"].to_string();
 
-    println!("{} {} !", "it".green(),     "background truecolor also works :)".on_truecolor(255, 255, 167));
-
+    //println!("{} {} !", "it".green(),     "background truecolor also works :)".on_truecolor(255, 255, 167));
+    //println!("{:?}", "#08121B".parse::<CssColor>().unwrap_or(transparent_black).r);
     //let mut ys: [String; 16] = [0.to; 16];
     //ys[1] = "HI";
     //println!("{}", ys[0]);
