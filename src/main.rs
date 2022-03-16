@@ -1,5 +1,6 @@
 use serde_json::{Value, Result};
 use std::fs;
+use colored::*;
 //use std::env;
 //use serde::{Deserialize, Serialize};
 
@@ -98,6 +99,8 @@ fn untyped_example() -> Result<()> {
     wal_colors[13]=v["colors"]["color13"].to_string();
     wal_colors[14]=v["colors"]["color14"].to_string();
     wal_colors[15]=v["colors"]["color15"].to_string();
+
+    println!("{} {} !", "it".green(),     "background truecolor also works :)".on_truecolor(255, 255, 167));
 
     //let mut ys: [String; 16] = [0.to; 16];
     //ys[1] = "HI";
