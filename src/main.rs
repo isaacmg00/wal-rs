@@ -2,12 +2,26 @@ use serde_json::{Value, Result};
 use std::fs;
 use colored::*;
 use css_color_parser::Color as CssColor;
-//use std::env;
-//use serde::{Deserialize, Serialize};
-
+use dialoguer::{theme::ColorfulTheme, Select};
 
 fn main() {
     untyped_example();
+
+    let selections = &[
+        "Ice Cream",
+        "Vanilla Cupcake",
+        "Chocolate Muffin",
+        "A Pile of sweet, sweet mustard",
+    ];
+
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Pick your flavor")
+        .default(1)
+        .items(&selections[..])
+        .interact()
+        .unwrap();
+
+    println!("Enjoy your {}!", selections[selection]);
 }
 
 fn print_type_of<T>(_: &T) {
@@ -53,9 +67,7 @@ fn print_colors(v:&Value, len: usize) -> Vec<String> {
     vec.push(v["colors"]["color13"].to_string());
     vec.push(v["colors"]["color14"].to_string());
     vec.push(v["colors"]["color15"].to_string());
-    
-    //let transparent_black = CssColor { r: 0, g: 0, b: 0, a: 1.0 };
-    //sprintln!("{:?}", "#08121B".parse::<CssColor>().unwrap_or(transparent_black).r);
+
 
     for i in 0..len {
         let transparent_black = CssColor { r: 0, g: 0, b: 0, a: 1.0 };
@@ -63,11 +75,27 @@ fn print_colors(v:&Value, len: usize) -> Vec<String> {
         vec[i] = rem_first_and_last(&vec[i]).to_string();
         let rgb_color = vec[i].parse::<CssColor>().unwrap_or(transparent_black);
         let mut red = rgb_color.r;
-        let mut green = rgb_color.b;
+        let mut green = rgb_color.g;
         let mut blue = rgb_color.b;
 
         println!("{}", vec[i].on_truecolor(red, green, blue));
     }
+
+    let selections = &[
+        "Ice Cream".on_truecolor(255,255,255),
+        "Vanilla Cupcake".on_truecolor(255,255,255),
+        "Chocolate Muffin".on_truecolor(255,255,255),
+        "A Pile of sweet, sweet mustard".on_truecolor(255,255,255),
+    ];
+
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Pick your flavor")
+        .default(1)
+        .items(&selections[..])
+        .interact()
+        .unwrap();
+
+    println!("Enjoy your {}!", selections[selection]);
 
     return vec;
 
@@ -108,26 +136,6 @@ fn untyped_example() -> Result<()> {
     wal_colors[13]=v["colors"]["color13"].to_string();
     wal_colors[14]=v["colors"]["color14"].to_string();
     wal_colors[15]=v["colors"]["color15"].to_string();
-
-    //println!("{} {} !", "it".green(),     "background truecolor also works :)".on_truecolor(255, 255, 167));
-    //println!("{:?}", "#08121B".parse::<CssColor>().unwrap_or(transparent_black).r);
-    //let mut ys: [String; 16] = [0.to; 16];
-    //ys[1] = "HI";
-    //println!("{}", ys[0]);
-
-    //println!("{}", ys[1]);
-
-    //print_type_of(&v["wallpaper"]);
-
-
-    //println!("Please call {} at the number", v["wallpaper"]);
-    //println!("{}", &data);
-    //let w: WalCache = serde_json::from_str(&data)?;
-    //println!("{}", data);
-    //println!("{}", v["colors"]["color0"]);
-    //print_type_of(&v["colors"]);
-
-
     Ok(())
 }
 
