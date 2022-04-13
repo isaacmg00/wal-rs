@@ -3,9 +3,25 @@ use std::fs;
 use colored::*;
 use css_color_parser::Color as CssColor;
 use dialoguer::{theme::ColorfulTheme, Select};
+use std::process::Command;
+use std::fmt::Display;
+use std::sync::Arc;
 
 fn main() {
+    println!("{}", get_device_name());
     wal_rs().ok();
+}
+
+fn get_device_name() -> String {
+    let output = Command::new("ratbagctl")
+                     .arg("list")
+                     .output()
+                     .expect("failed to execute process");
+
+    let ratbagctl_output = String::from_utf8_lossy(&output.stdout);
+
+    let device_name: Vec<String> = ratbagctl_output.split(":").map(|s| s.to_string()).collect();
+    return device_name[0].to_string();
 }
 
 fn rem_first_and_last(value: &str) -> &str {
@@ -90,6 +106,42 @@ fn print_colors(v:&Value, len: usize) -> Vec<String> {
         selection_index = selection;
 
         println!("{}", "Setting Peripheral RGB Color...");
+        let mut hex_color: String = vec[selection].to_string();
+        hex_color.remove(0);
+
+        let arc = Arc::new(hex_color);
+        let mut hex_code = vec![];
+
+        hex_code.push(arc.clone());
+        let mut elements2 = vec![];
+        elements2.push(arc.clone());
+
+        let mouse_command = Command::new("ratbagctl")
+                            .arg(get_device_name())
+                            .arg("led")
+                            .arg("0")
+                            .arg("set")
+                            .arg("color")
+                            .arg(hex_code[0].to_string())
+                            .output()
+                            .expect("failed to execute process");   
+  
+        let kb_command = Command::new("g810-led")
+                            .arg("-fx")
+                            .arg("color")
+                            .arg("keys")
+                            .arg(hex_code[0].to_string())
+                            .output()
+                            .expect("failed to execute process"); 
+                            
+        let kb_logo_command = Command::new("g810-led")
+                            .arg("-fx")
+                            .arg("color")
+                            .arg("logo")
+                            .arg(hex_code[0].to_string())
+                            .output()
+                            .expect("failed to execute process");    
+        
     }
     return vec;
 
