@@ -8,4 +8,4 @@ wal-rs is a rust CLI I made to keep a consistent theme with both my desktop wall
   - g810-led
   - ratbagctl
 
-**TODO:** error handling, refactoring, progress bars for looks.
+**TODO:** error handling, refactoring, progress bars for looks, expand functionality for more Logitech devices.
