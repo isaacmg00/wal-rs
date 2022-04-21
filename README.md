@@ -15,10 +15,18 @@ wal-rs is a rust CLI I made to keep a consistent theme with both my desktop wall
 | G PRO Wireless | G PRO |
 
 ### Usage
-Skip if you already have rust installed.
+Skip this step if you already have rust installed.
 ```sh
-curl https://sh.rustup.rs -sSf | sh
+curl https://sh.rustup.rs -sSf | sh       # install rust with cURL
 ```
+In a terminal, run
+```sh
+git clone https://github.com/isaacmg00/wal-rs
+cd wal-rs
+cargo run
+```
+
+Enjoy!
 
 
 
