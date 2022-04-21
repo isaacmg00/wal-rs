@@ -15,7 +15,8 @@ wal-rs is a rust CLI I made to keep a consistent theme with both my desktop wall
 | G PRO Wireless | G PRO |
 
 ### Usage
-
+Skip if you already have rust installed.
+```curl https://sh.rustup.rs -sSf | sh```
 
 
 
