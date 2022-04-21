@@ -22,7 +22,7 @@ curl https://sh.rustup.rs -sSf | sh       # install rust with cURL
 In a terminal, run
 ```sh
 git clone https://github.com/isaacmg00/wal-rs
-cd wal-rs
+cd wal-rs/
 cargo run
 ```
 
