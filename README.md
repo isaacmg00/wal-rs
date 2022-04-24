@@ -19,7 +19,7 @@ wal-rs is a rust CLI I made to keep a consistent theme with both my desktop wall
 ### Usage
 Skip this step if you already have rust installed.
 ```sh
-curl https://sh.rustup.rs -sSf | sh       # install rust with cURL
+curl https://sh.rustup.rs -sSf | sh  # install rust with cURL
 ```
 In a terminal, run
 ```sh
