@@ -33,4 +33,4 @@ Enjoy!
 
 
 
-**TODO:** error handling, refactoring, progress bars for looks, expand functionality for more Logitech devices.
+**TODO:** error handling, refactoring, progress bars for looks, expand functionality and test for more Logitech devices.
