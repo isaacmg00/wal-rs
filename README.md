@@ -3,7 +3,7 @@ wal-rs is a rust CLI I made to keep a consistent theme with both my desktop wall
 
 <h3 align="center"><img src="https://i.imgur.com/gverfd7.gif" width="760"></h3>
 
-**Note:** This script has only been tested using Logitech devices on Linux. For Windows use the G Hub software.
+**Note:** This script has only been tested using Logitech devices on Linux. For Windows use the proprietary LG G Hub software.
 
 ### Dependencies
   - pywal
